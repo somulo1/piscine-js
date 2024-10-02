@@ -1,9 +1,8 @@
 
 
-// Backup of the original values
 // Function to get the value from sourceObject based on the key
 function get(key) {
-    return originalValues[key]; // Always return the original value
+    return sourceObject[key]; // Always return the original value
 }
 
 // Function to set a new value for the specified key in sourceObject
