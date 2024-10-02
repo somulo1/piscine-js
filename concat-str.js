@@ -1,6 +1,6 @@
-// Function that concatenates two arguments
+// Function that concatenates two arguments as strings
 function concatStr(arg1, arg2) {
-    return arg1 + arg2;
+    return String(arg1) + String(arg2);  // Convert both arguments to strings before concatenating
 }
 
 // Example usage
