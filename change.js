@@ -1,9 +1,3 @@
-const sourceObject = {
-    num: 42,
-    bool: true,
-    str: 'some text',
-    log: console.log,
-};
 
 
 // Function that takes a key and returns the corresponding value from the sourceObject
