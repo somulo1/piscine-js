@@ -28,12 +28,12 @@ function isPast(date) {
     const now = new Date();
     return date < now;
 }
-const date1 = new Date('2024-10-8');
-const date2 = new Date('2023-10-8');
+// const date1 = new Date('2024-10-8');
+// const date2 = new Date('2023-10-8');
 
-console.log(isValid(date1)); // true
-console.log(isAfter(date1, date2)); // true
-console.log(isBefore(date2, date1)); // true
-console.log(isFuture(date1)); // true
-console.log(isPast(date2)); // true
+// console.log(isValid(date1)); // true
+// console.log(isAfter(date1, date2)); // true
+// console.log(isBefore(date2, date1)); // true
+// console.log(isFuture(date1)); // true
+// console.log(isPast(date2)); // true
 
