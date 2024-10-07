@@ -17,3 +17,15 @@ function addWeek(date) {
 
     return dayNames[dayIndex];
 }
+function timeTravel({ date, hour, minute, second }) {
+    // Create a copy of the input date to avoid mutating the original date
+    const newDate = new Date(date);
+
+    // Modify the time
+    if (hour !== undefined) newDate.setHours(hour);
+    if (minute !== undefined) newDate.setMinutes(minute);
+    if (second !== undefined) newDate.setSeconds(second);
+
+    // Return the modified date
+    return newDate;
+}
