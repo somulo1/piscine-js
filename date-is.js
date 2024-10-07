@@ -1,5 +1,11 @@
 // 1. Check if the date is valid
+// 1. Check if the date is valid
 function isValid(date) {
+    // If the input is a number (timestamp), convert it to a Date object
+    if (typeof date === 'number') {
+        date = new Date(date);
+    }
+
     return date instanceof Date && !isNaN(date);
 }
 
