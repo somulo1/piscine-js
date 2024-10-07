@@ -1,28 +1,53 @@
-function firstDayWeek(weekNumber, year) {
+function firstDayWeek(week, year) {
     // Parse the year as an integer
     const parsedYear = parseInt(year, 10);
-
-    // Create a date object for January 1st of the given year
-    const jan1 = new Date(parsedYear, 0, 1);
-
-    // Find the day of the week for January 1st
-    const dayOfWeek = jan1.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
-
-    // Calculate the offset from Monday (since Monday is the start of the week)
-    const offset = (dayOfWeek === 0) ? 6 : dayOfWeek - 1;
-
-    // Calculate the date for the first Monday of the year
-    const firstMonday = new Date(jan1);
-    firstMonday.setDate(jan1.getDate() - offset);
-
-    // Add the number of weeks passed (each week has 7 days)
-    const firstDayOfWeek = new Date(firstMonday);
-    firstDayOfWeek.setDate(firstMonday.getDate() + (weekNumber - 1) * 7);
-
-    // Format the result as dd-mm-yyyy
-    const dd = String(firstDayOfWeek.getDate()).padStart(2, '0');
-    const mm = String(firstDayOfWeek.getMonth() + 1).padStart(2, '0');
-    const yyyy = firstDayOfWeek.getFullYear();
-
-    return `${dd}-${mm}-${yyyy}`;
-}
+  
+    // Ensure week is between 1 and 53
+    week = Math.max(1, Math.min(53, week));
+  
+    // Function to create date, handling years below 100
+    function createDate(year, month, day) {
+      const date = new Date(year, month, day);
+      if (year < 100) {
+        date.setFullYear(year);
+      }
+      return date;
+    }
+  
+    // Create a Date object for January 1st of the given year
+    let time = createDate(parsedYear, 0, 1);
+  
+    // Special case for Week 1 starting on January 1st
+    if (week === 1) {
+      return formattedDate(time);
+    }
+  
+    // Calculate the number of days to add to reach the desired week
+    let dayPlus = (week - 1) * 7;
+    time.setDate(time.getDate() + dayPlus);
+  
+    // Find the first Monday of the desired week
+    while (getWeekDay(time) !== 'Monday') {
+      time.setDate(time.getDate() - 1);
+    }
+  
+    // If the calculated date is in the previous year, return January 1st
+    if (time.getFullYear() < parsedYear) {
+      return formattedDate(createDate(parsedYear, 0, 1));
+    }
+  
+    return formattedDate(time);
+  }
+  
+  function getWeekDay(date) {
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    return days[date.getDay()];
+  }
+  
+  function formattedDate(d) {
+    let month = String(d.getMonth() + 1).padStart(2, '0');
+    let day = String(d.getDate()).padStart(2, '0');
+    let year = String(d.getFullYear()).padStart(4, '0');
+    return `${day}-${month}-${year}`;
+  }
+  
