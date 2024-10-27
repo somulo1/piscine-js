@@ -1,25 +1,26 @@
-function retry(count = 3, callback = async () => {}) {
-    return async function (...args) {
-      try {
-        const result = await callback(...args);
-        return result;
-      } catch (error) {
-        if (count > 0) {
-          return retry(count - 1, callback)(...args);
-        } else {
-          throw error;
-        }
-      }
+
+const retry = (maxRetries, callback) => {
+    let attempts = 0;
+    return async function attempt(...params) {
+        return await callback(...params).catch(err => {
+            if (attempts >= maxRetries) throw err;
+            attempts++;
+            return attempt(...params);
+        });
     };
-  }
-  
-  function timeout(delay = 0, callback = async () => {}) {
-    return async function (...args) {
-      const timeoutPromise = new Promise((_, reject) =>
-        setTimeout(() => reject(new Error('timeout')), delay)
-      );
-      const functionCall = (async () => await callback(...args))();
-      const result = await Promise.race([timeoutPromise, functionCall]);
-      return result;
+};
+const timeout = (timeoutDuration, callback) => {
+    return async (...params) => {
+        const timerPromise = new Promise((resolve) => {
+            setTimeout(() => {
+                resolve(new Error('timeout'));
+            }, timeoutDuration);
+        });
+        return Promise.race([callback(...params), timerPromise]).then(value => {
+            if (Object.entries(value).length) return value;
+            throw value;
+        });
     };
-  }
+};
+
+
